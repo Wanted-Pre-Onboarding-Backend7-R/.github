@@ -80,8 +80,7 @@
 * git branch rules
   ```bash
   # branch name format
-  git checkout -b "feature/#{이슈번호}-{내용}"
-  "
+  git checkout -b "feat/#{이슈번호}-{내용}"
   ```
 
 * git fork rules
