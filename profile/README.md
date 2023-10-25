@@ -49,7 +49,33 @@
 ---
 ## Conventions
 > ### Code
+- 변수명: boolean인 경우 형용사, 그 외 명사
+- 함수명: 동사 현재형으로 시작
+- 클래스명: 명사
+- if, for 중괄호 한 줄이라도 항상 치기
+- 커밋하기 전에
+    - import 정리: `ctrl + alt(option) + o`
+    - line formatting: `ctrl(command) + alt(option) + l`
+    - 마지막 빈 줄 추가
+    ```java
+    /** 예시 **/
+    public class Clazz {
 
+        public int addCountIfValid(int count, boolean isValid) {
+            if (isValid) {
+                return count + 1;
+            }
+            return count;
+        }
+    }
+    // 마지막 빈 줄
+    ```
+    
+ - Optional 줄바꿈
+   ```java
+   Member member = memberRepository.findByEmail(dto.getEmail())
+         .orElseThrow(NotFoundMemberByEmailException::new);`
+   ```
 
 > ### Git
 * git commit rules
@@ -82,9 +108,3 @@
   # branch name format
   git checkout -b "feat/#{이슈번호}-{내용}"
   ```
-
-* git fork rules
-
-
-* git issue rules
-    
