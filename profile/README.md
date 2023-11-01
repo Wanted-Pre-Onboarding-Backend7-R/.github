@@ -76,6 +76,58 @@
    Member member = memberRepository.findByEmail(dto.getEmail())
          .orElseThrow(NotFoundMemberByEmailException::new);`
    ```
+- 객체 생성 규칙
+  - 외부에서 직접적인 new 지양하고 내부적으로 활용 `@Builder` 및 정적 팩토리 메서드 활용
+    - 정적 팩토리 메서드 이름은 단일 인자일 경우 `from`, 다중 인자일 경우는 `of`로 명명 
+  - Bean 제외 DTO, Entity들은 `@All-/@Required-ArgsContructor` 활용 제한, 직접 코드로 생성자 작성 및 private/protected 등으로 잠그기
+  - 목적: 같은 타입의 필드 연속될 때 다른 값을 집어넣는 human error 방지 및 가독성을 위한 작성법 통일을 위하여
+  ```java
+   @Getter
+   @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   @EqualsAndHashCode(of = "accountName", callSuper = false)
+   @Entity
+   public class Member extends BaseEntity {
+   
+       @Column(nullable = false, unique = true)
+       private String accountName;
+   
+       @Column(nullable = false)
+       private String email;
+   
+       @Column(length = 60, nullable = false)
+       private String password;
+   
+       @Column(length = 6, nullable = false)
+       private String approvalCode;
+   
+       @Column(nullable = false)
+       private Boolean isApproved;
+   
+       @Enumerated(EnumType.STRING)
+       private Authority authority;
+   
+       @Builder
+       private Member(String accountName, String email, String password, String approvalCode, Boolean isApproved) {
+           this.accountName = accountName;
+           this.email = email;
+           this.password = password;
+           this.approvalCode = approvalCode;
+           this.isApproved = isApproved;
+           authority = Authority.ROLE_USER;
+       }
+   
+       public static Member of(MemberJoinRequest dto, String encodedPassword, String approvalCode) {
+           return builder()
+                   .accountName(dto.getAccountName())
+                   .email(dto.getEmail())
+                   .password(encodedPassword)
+                   .approvalCode(approvalCode)
+                   .isApproved(false)
+                   .build();
+       }
+   }
+
+  ```
 
 > ### Git
 * git commit rules
