@@ -80,7 +80,7 @@
   - 외부에서 직접적인 new 지양하고 내부적으로 활용 `@Builder` 및 정적 팩토리 메서드 활용
     - 정적 팩토리 메서드 이름은 단일 인자일 경우 `from`, 다중 인자일 경우는 `of`로 명명 
   - Bean 제외 DTO, Entity들은 `@All-/@Required-ArgsContructor` 활용 제한, 직접 코드로 생성자 작성 및 private/protected 등으로 잠그기
-  - 목적: 같은 타입의 필드 연속될 때 다른 값을 집어넣는 human error 방지 및 가독성을 위한 작성법 통일을 위하여
+  - 목적: 같은 타입의 필드 연속될 때 1) 잘못된 값 입력하는 human error 최소화, 2) 필드 순서를 바꿀 경우 IDE에 의한 리팩토링이 적용되지 않는 Lombok 에러 방지, 3) 가독성을 위한 작성법 통일을 위하여
   ```java
    @Getter
    @NoArgsConstructor(access = AccessLevel.PROTECTED)
